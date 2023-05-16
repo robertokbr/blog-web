@@ -1,4 +1,4 @@
-import { AxiosAPI } from "./axios";
+import { AxiosAPI } from "./client";
 
 const apiProviders = { axios: AxiosAPI };
 
