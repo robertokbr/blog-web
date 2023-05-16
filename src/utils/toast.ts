@@ -16,6 +16,13 @@ const baseToastConfig = {
   position: ToastPosition.CENTER,
 }
 
+export const LoginErrorToast = {
+  title: "Falha no login",
+  status: ToastStatusEnum.ERROR,
+  ...baseToastConfig,
+};
+
+
 export const createCommentErrorToast = {
   title: "Falha no processo",
   description: "Seu comentário não foi persistido, meu nobre 🤷",
@@ -72,8 +79,8 @@ export const deleteCommentErrorToast = {
   status: ToastStatusEnum.ERROR,
 }
 
-export const createCommentToast = { 
+export const createCommentToast = {
   title: 'Comentário enviado!',
-  status: ToastStatusEnum.SUCCESS, 
-  ...baseToastConfig, 
+  status: ToastStatusEnum.SUCCESS,
+  ...baseToastConfig,
 }

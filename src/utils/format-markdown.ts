@@ -7,9 +7,9 @@ const getFormattedContent = (markdown: string) => {
   const content = body.replaceAll(hashTagRegexp, '') || '';
 
   return {
-    title: title?.replaceAll(/#/gi, ''), 
+    title: title?.replaceAll(/#/gi, ''),
     content,
-    image: (body?.match(imageRegexp) || [])[0]?.split("![](")[1]?.replace(")", ""),
+    // image: (body?.match(imageRegexp) || [])[0]?.split("![](")[1]?.replace(")", ""),
     description: content.replaceAll(imageRegexp, "")?.slice(0, 300)?.split('\n')[0]?.replaceAll("#", ""),
   }
 }
@@ -21,8 +21,8 @@ const getTags = (markdown: string) => {
 }
 
 export const defaultFormattedValue = {
-  title: '', 
-  content: '', 
+  title: '',
+  content: '',
   image: '',
   tags: [],
   createdAt: new Date().toString(),
@@ -33,8 +33,8 @@ export const formatMarkdown = (markdown: string) => {
   const tags = getTags(markdown);
   const createdAt = new Date().toDateString();
 
-  const data = { 
-    ...(tags?.length && { tags }), 
+  const data = {
+    ...(tags?.length && { tags }),
     createdAt ,
     ...dto,
   };
@@ -43,9 +43,9 @@ export const formatMarkdown = (markdown: string) => {
 }
 
 export const revertMKFormatation = (
-  title: string, 
-  content: string, 
+  title: string,
+  content: string,
   tags: string[],
-) => {  
+) => {
   return `${title}\n${content}\n${tags.map(t => "#" + t).join(' ')}`;
 }
