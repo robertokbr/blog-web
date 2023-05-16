@@ -19,7 +19,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types": ["@ampproject/remapping"]
   },
   "include": [
     "next-env.d.ts",
