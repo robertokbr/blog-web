@@ -1,6 +1,6 @@
 import { Button, Flex, Icon } from "@chakra-ui/react";
 import { GoPlus } from "react-icons/go";
-import { UserDto } from "../../../services/api/openapi";
+import { UserDto } from "../../../services/api/models";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { CreatePostModal } from "../../organisms/create-post-modal";
 
@@ -26,7 +26,7 @@ export function CreatePostButton() {
           <Icon
             as={GoPlus}
             w="4"
-            h="4" 
+            h="4"
           />
         </Button>
       </CreatePostModal>

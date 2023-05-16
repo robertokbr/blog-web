@@ -1,9 +1,9 @@
-import { 
-  Modal, 
-  ModalCloseButton, 
-  ModalContent, 
-  ModalHeader, 
-  ModalOverlay, 
+import {
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   useDisclosure,
   Box,
   useToast,
@@ -12,28 +12,29 @@ import { useRouter } from "next/router";
 import { useRef, cloneElement, useCallback, useEffect, useState, ReactElement } from "react"
 import { CreatePostModalBody } from "../../molecules/create-post-modal-body";
 import { defaultFormattedValue, formatMarkdown, revertMKFormatation } from "../../../utils/format-markdown";
-import { useAuth } from "../../../states/hooks/use-auth";
 import { logger } from "../../../services/logger";
 import { createPostErrorToast } from "../../../utils/toast";
-import { PostDto, PostsService } from "../../../services/api/openapi";
+import { PostDto } from "../../../services/api/models";
 import { useDraft } from "../../../states/hooks/use-draft";
 import { CreatePostModalFooter } from "../../molecules/create-post-modal-footer";
+import { Api } from "../../../services/api";
 
 interface CreatePostModalProps {
   children: ReactElement;
-  post?: PostDto; 
+  post?: PostDto;
 }
 
+const api = new Api("CreatePostModal");
+
 /**
- * @summary 
- * Component to create or edit post 
+ * @summary
+ * Component to create or edit post
  */
 export function CreatePostModal({ children, post }: CreatePostModalProps) {
   const { handleAddDraft, handleGetDraft, handleRemoveDraft } = useDraft();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef();
   const history = useRouter();
-  const { data } = useAuth();
   const toast = useToast();
 
   const [formattedValue, setFormattedValue] = useState(defaultFormattedValue);
@@ -59,7 +60,7 @@ export function CreatePostModal({ children, post }: CreatePostModalProps) {
       return defaultFormattedValue;
     }
     const formatedValue = formatMarkdown(inputData);
-    setFormattedValue(formatedValue);
+    setFormattedValue(formatedValue as any);
     return formatedValue;
   }, [inputData]);
 
@@ -69,19 +70,19 @@ export function CreatePostModal({ children, post }: CreatePostModalProps) {
   }, [handleMarkdown]);
 
   const handleSaveDraft = useCallback(() => {
-    if (!post) 
+    if (!post)
       handleAddDraft({ field: 'create-post-modal', content: inputData});
     onClose();
-  }, [handleAddDraft, inputData, onClose, post]); 
+  }, [handleAddDraft, inputData, onClose, post]);
 
   const handleCreatePost = useCallback(async () => {
     const { createdAt, ...dto } = handleMarkdown();
-    const basePostDto = { userId: data?.user?.id, ...dto };
+    const basePostDto = { ...dto };
     try {
       if (post) {
-        await PostsService.postsControllerUpdate(`${post.id}`, basePostDto);
+        await api.updatePost(`${post.id}`, basePostDto);
       } else {
-        await PostsService.postsControllerCreate(basePostDto);
+        await api.createPost(basePostDto);
       }
       handleRemoveDraft('create-post-modal');
       setFormattedValue(defaultFormattedValue);
@@ -91,7 +92,7 @@ export function CreatePostModal({ children, post }: CreatePostModalProps) {
       toast(createPostErrorToast);
       logger.error({ error, context: "handleCreatePost" });
     }
-  }, [toast, data, handleMarkdown, handleRemoveDraft, history, onClose, post]); 
+  }, [toast, handleMarkdown, handleRemoveDraft, history, onClose, post]);
 
   const handleInputData = useCallback(v => setInputData(v.target.value), []);
 
@@ -112,17 +113,17 @@ export function CreatePostModal({ children, post }: CreatePostModalProps) {
           <ModalHeader color="gray.50">
             <ModalCloseButton  />
           </ModalHeader>
-          <CreatePostModalBody 
-            data={{...formattedValue, user: post?.user }} 
-            handleInputData={handleInputData} 
-            inputData={inputData} 
+          <CreatePostModalBody
+            data={{...formattedValue, user: post?.user }}
+            handleInputData={handleInputData}
+            inputData={inputData}
             isVisible={isVisible}
           />
           <Box height="0.5px" bg="gray.700" mx="8"/>
-          <CreatePostModalFooter 
-            handleCreatePost={handleCreatePost} 
-            handleMKVisibility={handleMKVisibility} 
-            isVisible={isVisible} 
+          <CreatePostModalFooter
+            handleCreatePost={handleCreatePost}
+            handleMKVisibility={handleMKVisibility}
+            isVisible={isVisible}
           />
         </ModalContent>
       </Modal>

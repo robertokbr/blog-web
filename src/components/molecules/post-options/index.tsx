@@ -2,7 +2,7 @@ import { Flex, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
 import { FaHome, FaPen, FaTrashAlt } from "react-icons/fa";
-import { PostDto, PostsService, UserDto } from "../../../services/api/openapi";
+import { PostDto, UserDto } from "../../../services/api/models";
 import { logger } from "../../../services/logger";
 import { deletePostErrorToast } from "../../../utils/toast";
 import { PostIcon } from "../../atoms/post-icon";
@@ -10,10 +10,13 @@ import { Link } from "../../atoms/link";
 import { Alert } from "../../atoms/alert";
 import { CreatePostModal } from "../../organisms/create-post-modal";
 import { useAuth } from "../../../states/hooks/use-auth";
+import { Api } from "../../../services/api";
 
 type PostOptionsProps = {
   data: PostDto;
 };
+
+const api = new Api("PostOptions");
 
 export function PostOptions ({
   data,
@@ -26,7 +29,7 @@ export function PostOptions ({
 
   const handleDeletePost = useCallback(async () => {
     try {
-      await PostsService.postsControllerDelete(String(data.id));
+      await api.deletePost(String(data.id));
       history.push('/')
     } catch (error) {
       logger.error({ error, context: 'PostHeader::handleDeletePost' })
@@ -38,23 +41,23 @@ export function PostOptions ({
     <Flex ml="auto">
       {userRole === UserDto.role.ADMIN && (
         <>
-          <Alert 
-            title="Deletar post" 
+          <Alert
+            title="Deletar post"
             description="Você deseja deletar este post para sempre?"
             handler={handleDeletePost}
           >
             <PostIcon
               icon={FaTrashAlt}
-              text={"Deletar"} 
+              text={"Deletar"}
             />
           </Alert>
           <CreatePostModal post={data}>
             <PostIcon
               icon={FaPen}
-              text={"Editar"} 
+              text={"Editar"}
             />
           </CreatePostModal>
-        </>   
+        </>
       )}
       {pathname !== '/' && (
         <Link href="/">

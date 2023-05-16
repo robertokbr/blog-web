@@ -1,4 +1,4 @@
-import { PostAdDto } from "../../../services/api/openapi";
+import { PostAdDto } from "../../../services/api/models";
 import { Advertisement } from "../../organisms/advertisement";
 
 type AdvertisementsProps = {

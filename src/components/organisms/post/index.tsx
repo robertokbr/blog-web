@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from "react";
-import { RatesService } from "../../../services/api/openapi";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { PostContainer } from "../../atoms/post-container";
 import { PostContent } from "../../molecules/post-content";
@@ -10,8 +9,11 @@ import { PostDate } from "../../molecules/post-date";
 import { PostProps } from "./post.type";
 import { Flex } from "@chakra-ui/react";
 import { PostOptions } from "../../molecules/post-options";
+import { Api } from "../../../services/api";
 
-export function Post({ 
+const api = new Api("Post");
+
+export function Post({
   containerProps,
   isPostPreview,
   data: post,
@@ -24,25 +26,25 @@ export function Post({
   } = useMemo(() => post, [post]);
 
   const handlePostRate = useCallback(async (value: number) => {
-    return RatesService.postRatesControllerCreate({
+    return api.createRate({
       postId: id,
       userId: session.data?.user?.id,
       value,
     });
   }, [id, session]);
 
-  const Aside = useMemo(() => 
-    <PostRateControl 
-      data={{ rates: post.rates }} 
-      handleRate={handlePostRate} 
+  const Aside = useMemo(() =>
+    <PostRateControl
+      data={{ rates: post.rates }}
+      handleRate={handlePostRate}
       hideRateControl={!isPostPreview}
       size="md"
     />
   ,[post.rates, handlePostRate, isPostPreview]);
 
-  const PostContentByContext = useMemo(() => 
-    isPostPreview 
-      ? PostContentPreview 
+  const PostContentByContext = useMemo(() =>
+    isPostPreview
+      ? PostContentPreview
       : PostContent,
     [isPostPreview],
   );

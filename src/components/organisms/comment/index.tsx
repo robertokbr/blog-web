@@ -1,7 +1,7 @@
 import { Avatar, Box, Flex, Text, useToast } from "@chakra-ui/react";
 import { useCallback, useMemo } from "react";
 import { GrMoreVertical } from "react-icons/gr";
-import { CommentsService, RatesService, UserDto } from "../../../services/api/openapi";
+import { UserDto } from "../../../services/api/models";
 import { logger } from "../../../services/logger";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { useContent } from "../../../states/hooks/use-content";
@@ -11,8 +11,11 @@ import { PostContainer } from "../../atoms/post-container";
 import { PostRateControl } from "../../molecules/post-rate-control";
 import { Alert } from "../../atoms/alert";
 import { CommentProps } from "./comment.type";
+import { Api } from "../../../services/api";
 
-export function Comment({ 
+const api = new Api("Comment")
+
+export function Comment({
   containerProps,
   data: { user, content, id, rates }
 }: CommentProps) {
@@ -23,7 +26,7 @@ export function Comment({
 
   const handleDeleteComment = useCallback(async () => {
     try {
-      await CommentsService.postCommentsControllerDelete(`${id}`);
+      await api.deleteComment(`${id}`);
       handleDeletePostComment(id);
       toast(commentDeleted);
     } catch (error) {
@@ -31,29 +34,29 @@ export function Comment({
       toast(deleteCommentErrorToast);
     }
   }, [id, toast, handleDeletePostComment]);
-  
+
   const handleCommentRate = useCallback(async (value: number) => {
-    return RatesService.postRatesControllerCreateCommentRate({
+    return api.createCommentRate({
       commentId: id,
       userId: session.data?.user?.id,
       value,
     });
   }, [id, session]);
 
-  const LeftSide = useMemo(() => 
-    <PostRateControl 
-      data={{ rates }} 
-      handleRate={handleCommentRate} 
+  const LeftSide = useMemo(() =>
+    <PostRateControl
+      data={{ rates }}
+      handleRate={handleCommentRate}
       isDislikeEnabled
       controllSide="right"
       size="sm"
     />
   ,[rates, handleCommentRate]);
 
-  const RightSide = useMemo(() => 
+  const RightSide = useMemo(() =>
     loggedUser?.id === user?.id || loggedUser?.role === UserDto.role.ADMIN ?
-    <Alert 
-      title="Deletar comentário" 
+    <Alert
+      title="Deletar comentário"
       description="Você deseja deletar este comentário?"
       handler={handleDeleteComment}
     >

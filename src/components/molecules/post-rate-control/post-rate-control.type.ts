@@ -1,13 +1,13 @@
-import { CommentRateDto, PostRateDto } from "../../../services/api/openapi";
+import { CommentRateDto, PostRateDto } from "../../../services/api/models";
 
 export interface PostRateControlProps  {
   hideRateControl?: boolean;
   /**
-   * @summary 
+   * @summary
    * Since rate is used to manage comment rate as well as post rate,
    * this function is comming from outside the component
    */
-  handleRate: (value: number) => Promise<PostRateDto | CommentRateDto>; 
+  handleRate: (value: number) => Promise<PostRateDto | CommentRateDto>;
   size: 'sm' | 'md';
   data: { rates: CommentRateDto[] | PostRateDto[] };
   controllSide?: "left" | "right";

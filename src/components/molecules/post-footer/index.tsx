@@ -7,11 +7,13 @@ import { PostFooterProps } from "./post-footer.types";
 import { formatCommentText } from "../../../utils/format-text";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { useContent } from "../../../states/hooks/use-content";
-import { CommentsService } from "../../../services/api/openapi";
 import { logger } from "../../../services/logger";
 import { createCommentErrorToast, createCommentToast } from "../../../utils/toast";
 import { dracula } from "../../../styles/theme";
 import { Link } from "../../atoms/link";
+import { Api } from "../../../services/api";
+
+const api = new Api("PostFooter");
 
 export function PostFooter({
   data: { commentsLength, tags, id }
@@ -27,7 +29,7 @@ export function PostFooter({
       const commentDto = { content, postId: id, userId: user?.id };
 
       try {
-        const comment = await CommentsService.postCommentsControllerCreate(commentDto);
+        const comment = await api.createComment(commentDto);
         handleUpdatePostComments({ ...comment, user, rates: [] });
         toast(createCommentToast)
       } catch (error) {
@@ -41,12 +43,12 @@ export function PostFooter({
     <>
       <Flex align="center">
         <SingleInputModal
-          handler={handlePostComment} 
-          modalName="comment-modal" 
+          handler={handlePostComment}
+          modalName="comment-modal"
           textAreaProps={{ placeHolder: "Your comment here"}}
         >
-          <PostIcon 
-            icon={RiMessage3Fill} 
+          <PostIcon
+            icon={RiMessage3Fill}
             text={formatCommentText(commentsLength)}
           />
         </SingleInputModal>
@@ -57,7 +59,7 @@ export function PostFooter({
         direction='row'
         {...(!tags.length && { display: 'none' })}
       >
-        {tags?.map(tag => 
+        {tags?.map(tag =>
           <Link href={"/" + tag.name} key={tag.name}>
             <Badge
               cursor="pointer"
