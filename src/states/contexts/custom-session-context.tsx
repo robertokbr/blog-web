@@ -1,34 +1,45 @@
-import { useSession } from "next-auth/react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { Api } from "../../services/api";
-import { OpenAPI, UserDto } from "../../services/api/openapi";
-
-export type CustomSession = {
-  user: UserDto;
-  jwt?: string;
-};
+import { UserDto } from "../../services/api/models/UserDto";
+import { useToast } from "@chakra-ui/react";
 
 export interface CustomSessionContextProps {
-  data: CustomSession;
-  setSession(data: { user: UserDto }): void;
+  data: { user: UserDto };
+  validateToken(token: string): Promise<boolean>;
+  login(): void;
 }
 
 export const CustomSessionContext = createContext({} as CustomSessionContextProps);
 
+const api = new Api("CustomSessionContext");
+
 export function CustomSessionProvider({ children }) {
-  const { data } = useSession() as Pick<CustomSessionContextProps, 'data'>;
-  const [session, setSession] = useState(data);
+  const [data, setData] = useState<{ user: UserDto }>();
+
+  const validateToken = useCallback(async (token: string) => {
+    const data = await api.getMe(token);
+
+    if (data) {
+        setData({ user: data });
+        Api.token = token;
+        sessionStorage.setItem('token', token);
+        return true;
+      }
+
+      sessionStorage.removeItem('token');
+      return false;
+  }, []);
+
+  const login = () => {};
 
   useEffect(() => {
-    if (data?.jwt) {
-      OpenAPI.TOKEN = data.jwt; 
-      Api.token = data.jwt;
-    }
-    setSession(data);
-  }, [data]);
+    const token = sessionStorage.getItem('token');
+    if (token) validateToken(token);
+  }, [validateToken]);
+
 
   return (
-    <CustomSessionContext.Provider value={{ data: session, setSession }}>
+    <CustomSessionContext.Provider value={{ data, validateToken, login }}>
       {children}
     </CustomSessionContext.Provider>
   );

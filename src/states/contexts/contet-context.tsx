@@ -1,7 +1,9 @@
 import { createContext, useEffect } from "react";
 import { useCallback, useMemo, useState } from "react";
 import { Api } from "../../services/api";
-import { CommentDto, PostDto, PostTagDto, TagsService } from "../../services/api/openapi";
+import { CommentDto, PostDto, PostTagDto } from "../../services/api/models";
+
+const api = new Api("ContentContext");
 
 export interface ContentContextProps {
   tags: PostTagDto[];
@@ -23,7 +25,7 @@ export function ContentContextProvider({ children }) {
   const [postComments, setPostComments] = useState<CommentDto[]>([]);
 
   useEffect(() => {
-    TagsService.postsControllerFindAllPostTags().then(tags => setTags(tags));
+    api.getTags().then(tags => setTags(tags));
   }, []);
 
   const handleSearchPosts = useCallback(
@@ -31,7 +33,7 @@ export function ContentContextProvider({ children }) {
       const client = new Api("ContentContext::handleSearchPosts");
       const foundPosts = await client.getPosts(params);
       setPostsToList(foundPosts);
-  }, []); 
+  }, []);
 
   const handleUpdatePostComments = useCallback((data: CommentDto) => {
     setPostComments(state => [data, ...state]);
@@ -50,14 +52,14 @@ export function ContentContextProvider({ children }) {
     postComments,
     postsToList,
     setTags,
-    tags, 
-  }), 
+    tags,
+  }),
   [
-    handleUpdatePostComments, 
+    handleUpdatePostComments,
     handleDeletePostComment,
-    handleSearchPosts, 
-    postComments, 
-    postsToList, 
+    handleSearchPosts,
+    postComments,
+    postsToList,
     tags
   ]);
 
