@@ -3,7 +3,7 @@ import { MainContainer } from "../components/atoms/main-container";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Footer } from "../components/organisms/footer";
 import { FeedHead as Head } from "../components/atoms/feed-head";
-import { PostDto, PostTagDto } from "../services/api/openapi";
+import { PostDto, PostTagDto } from "../services/api/models";
 import { Api } from "../services/api";
 import { Aside } from "../components/organisms/aside";
 import { Posts } from "../components/templates/posts";
@@ -18,11 +18,11 @@ export default function FilteredFeed({ posts, tags }: FilteredFeedProps) {
   return (
     <>
       <Head />
-      <Flex direction="column"  w="100vw"> 
+      <Flex direction="column"  w="100vw">
         <MainContainer>
           <Aside data={tags}/>
           <Posts data={posts} />
-        </MainContainer> 
+        </MainContainer>
         <Footer data={tags} />
         <CreatePostButton/>
       </Flex>

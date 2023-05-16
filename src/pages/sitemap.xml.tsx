@@ -1,6 +1,6 @@
 import { appConfig } from "../configs/app-config";
 import { Api } from "../services/api";
-import { PostDto } from "../services/api/openapi";
+import { PostDto } from "../services/api/models";
 
 function generateSiteMap(posts: PostDto[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -27,7 +27,7 @@ function SiteMap() {
 
 export async function getServerSideProps({ res }) {
   // We make an API call to gather the URLs for our site
-  const client = new Api("SiteMap::getServerSideProps"); 
+  const client = new Api("SiteMap::getServerSideProps");
   const posts = await client.getPosts();
 
   // We generate the XML sitemap with the posts data

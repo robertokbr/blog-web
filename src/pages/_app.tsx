@@ -1,26 +1,22 @@
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from "../styles/theme"
-import { SessionProvider } from 'next-auth/react';
 import '../styles/global.scss';
 import '../styles/highlight.scss';
-import { apiConfig } from "../configs/api-config";
 import { ContentContextProvider } from "../states/contexts/contet-context";
-import { OpenAPI } from "../services/api/openapi";
 import { CustomSessionProvider } from "../states/contexts/custom-session-context";
-
-OpenAPI.BASE = apiConfig.baseURL; 
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <ChakraProvider theme={theme}>
-        <CustomSessionProvider>
-          <ContentContextProvider>
-            <Component {...pageProps} />
-          </ContentContextProvider>
-        </CustomSessionProvider>
-      </ChakraProvider>
-    </SessionProvider>
+    <GoogleOAuthProvider clientId={String(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)}>
+        <ChakraProvider theme={theme}>
+          <CustomSessionProvider>
+            <ContentContextProvider>
+              <Component {...pageProps} />
+            </ContentContextProvider>
+          </CustomSessionProvider>
+        </ChakraProvider>
+    </GoogleOAuthProvider>
   );
 }
 
