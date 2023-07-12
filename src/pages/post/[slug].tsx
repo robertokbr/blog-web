@@ -14,9 +14,10 @@ import { PageUpButton } from "../../components/molecules/page-up-button";
 interface PostDetailProps {
   post: PostDto;
   tags: PostTagDto[];
+  notFound?: boolean;
 }
 
-export default function FeedPost({ post, tags }: PostDetailProps) {
+export default function FeedPost({ post, tags, notFound }: PostDetailProps) {
   const { setPostComments } = useContent();
 
   useEffect(() => {
@@ -31,6 +32,10 @@ export default function FeedPost({ post, tags }: PostDetailProps) {
       backgroundColor: "gray.900"
     }
   }, [post]);
+
+  if (notFound) {
+    history.back();
+  }
 
   return (
     <>
@@ -57,5 +62,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const api = new Api("FeedPost::getServerSideProps");
   const { slug } = params as Record<string, string>;
   const { post, tags } = await api.getPostsAndTagsBySlug(slug);
+
+  if (!post) {
+    return { notFound: true }
+  }
+
   return { revalidate: 30 * 60, props: { post, tags } }
 }

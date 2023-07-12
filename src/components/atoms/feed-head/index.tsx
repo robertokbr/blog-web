@@ -5,7 +5,7 @@ import { metaConfig } from "../../../configs/meta-config";
 export function FeedHead() {
   return (
     <Head>
-      <title>Feed | rbjr blog</title>
+      <title>Feed | robkbr blog</title>
       <meta name="title" content={metaConfig.feed.title}/>
       <meta name="description" content={metaConfig.feed.content} />
 
