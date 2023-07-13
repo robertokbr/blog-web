@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blog.rbjr.dev/sitemap.xml
+Sitemap: https://blog.robkbr.com/sitemap.xml
