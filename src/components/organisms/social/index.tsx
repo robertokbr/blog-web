@@ -3,6 +3,7 @@ import { PostContainer } from "../../atoms/post-container";
 import { SocialProps } from "./social";
 import { Link } from "../../atoms/link";
 import { dracula } from "../../../styles/theme";
+import { useCallback } from "react";
 
 const FlexProps = {
   border: "2px solid transparent",
@@ -16,8 +17,16 @@ const FlexProps = {
 export function Social({
   containerProps,
   icon,
-  data: { content, link, title }
+  data: { content, link, title, fallbackLink }
 }: SocialProps) {
+  const onClick = useCallback(() => {
+    window.location.href = link;
+    setTimeout(function() {
+      console.log('redirecting to fallback link');
+      window.location.href = fallbackLink;
+    }, 3000);
+  }, [fallbackLink, link]);
+
 
   return (
     <PostContainer
@@ -26,13 +35,13 @@ export function Social({
       {...FlexProps}
     >
       <Flex >
-        <Link target="__blank" aProps={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} href={link}>
+        <a href={link} style={{ cursor: 'pointer' ,display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} onClick={onClick}>
           <Icon as={icon} w="6" h="6"/>
           <Box ml="4" mr="auto">
             <Text color="gray.600" fontSize="sm">{title}</Text>
             <Text fontSize="sm" mt="1" opacity={0.7}>{content}</Text>
           </Box>
-        </Link>
+        </a>
       </Flex>
     </PostContainer>
   );

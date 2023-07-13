@@ -1,23 +1,14 @@
 import { Flex, Stack } from "@chakra-ui/react";
 import { MainContainer } from "../components/atoms/main-container";
-import { GetStaticProps } from "next";
 import { FeedHead as Head } from "../components/atoms/feed-head";
-import { PostDto, PostTagDto } from "../services/api/models";
-import { Api } from "../services/api";
 import { Bio } from "../components/organisms/bio";
 import { Social } from "../components/organisms/social";
 import { GiBirdTwitter } from 'react-icons/gi';
 import { FaLinkedin, FaTiktok, FaYoutube } from 'react-icons/fa';
 
-
-type FeedProps = {
-  posts: PostDto[];
-  tags: PostTagDto[];
-}
-
 const socialContainerProps = { marginLeft: 'auto', marginRight: 'auto' }
 
-export default function Feed({ posts, tags }: FeedProps) {
+export default function Feed() {
 
   return (
     <>
@@ -31,7 +22,8 @@ export default function Feed({ posts, tags }: FeedProps) {
               containerProps={socialContainerProps}
               data={{
                 content: '@rob_kbr',
-                link: 'https://www.tiktok.com/@rob_kbr',
+                fallbackLink: 'https://www.tiktok.com/@rob_kbr',
+                link: 'tiktok://user/rob_kbr',
                 title: "TikTok"
               }}
             />
@@ -40,7 +32,8 @@ export default function Feed({ posts, tags }: FeedProps) {
               containerProps={socialContainerProps}
               data={{
                 content: 'robkbr',
-                link: 'https://www.youtube.com/channel/UCggY0K1bKT24bWf3cfUBdqw',
+                fallbackLink: 'https://www.youtube.com/channel/UCggY0K1bKT24bWf3cfUBdqw',
+                link: 'youtube://www.youtube.com/user/robkbr',
                 title: "YouTube"
               }}
             />
@@ -49,7 +42,8 @@ export default function Feed({ posts, tags }: FeedProps) {
               containerProps={socialContainerProps}
               data={{
                 content: '@robertojrdev',
-                link: 'https://twitter.com/robertojrdev',
+                link: 'twitter://user?screen_name=robertojrdev',
+                fallbackLink: 'https://twitter.com/robertojrdev',
                 title: "Twitter"
               }}
             />
@@ -58,7 +52,8 @@ export default function Feed({ posts, tags }: FeedProps) {
               containerProps={socialContainerProps}
               data={{
                 content: 'Roberto Junior',
-                link: 'https://www.linkedin.com/in/robertojrcdc/',
+                fallbackLink: 'https://www.linkedin.com/in/robertojrcdc/',
+                link: 'linkedin://profile/robertojrcdc/',
                 title: "Linkedin"
               }}
             />
@@ -68,9 +63,3 @@ export default function Feed({ posts, tags }: FeedProps) {
     </>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  const api = new Api("Feed::getServerSideProps");
-  const { posts, tags } = await api.getPostsAndTags({});
-  return { revalidate: 30 * 60, props: { posts, tags } };
-};

@@ -6,6 +6,7 @@ export interface SocialProps {
   icon: IconType;
   data: {
     link: string;
+    fallbackLink?: string;
     title: string;
     content: string;
   };
