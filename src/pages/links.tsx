@@ -4,7 +4,9 @@ import { FeedHead as Head } from "../components/atoms/feed-head";
 import { Bio } from "../components/organisms/bio";
 import { Social } from "../components/organisms/social";
 import { GiBirdTwitter } from 'react-icons/gi';
-import { FaLinkedin, FaTiktok, FaYoutube } from 'react-icons/fa';
+import { FaLinkedin, FaTiktok, FaYoutube, FaGithubAlt } from 'react-icons/fa';
+import { BiBookContent } from 'react-icons/bi';
+
 
 const socialContainerProps = { marginLeft: 'auto', marginRight: 'auto' }
 
@@ -31,7 +33,7 @@ export default function Feed() {
               icon={FaYoutube}
               containerProps={socialContainerProps}
               data={{
-                content: 'robkbr',
+                content: '@robkbr',
                 fallbackLink: 'https://www.youtube.com/channel/UCggY0K1bKT24bWf3cfUBdqw',
                 link: 'youtube://www.youtube.com/user/robkbr',
                 title: "YouTube"
@@ -41,10 +43,20 @@ export default function Feed() {
               icon={GiBirdTwitter}
               containerProps={socialContainerProps}
               data={{
-                content: '@robertojrdev',
-                link: 'twitter://user?screen_name=robertojrdev',
-                fallbackLink: 'https://twitter.com/robertojrdev',
+                content: '@rob_kbr',
+                link: 'twitter://user?screen_name=rob_kbr',
+                fallbackLink: 'https://twitter.com/rob_kbr',
                 title: "Twitter"
+              }}
+            />
+            <Social
+              icon={FaGithubAlt}
+              containerProps={socialContainerProps}
+              data={{
+                content: '@robertokbr',
+                fallbackLink: "https://github.com/robertokbr",
+                link: 'https://github.com/robertokbr',
+                title: "Github"
               }}
             />
             <Social
@@ -55,6 +67,16 @@ export default function Feed() {
                 fallbackLink: 'https://www.linkedin.com/in/robertojrcdc/',
                 link: 'linkedin://profile/robertojrcdc/',
                 title: "Linkedin"
+              }}
+            />
+            <Social
+              icon={BiBookContent}
+              containerProps={socialContainerProps}
+              data={{
+                content: 'blog.robkbr.com',
+                fallbackLink: '/',
+                link: '/',
+                title: "Blog"
               }}
             />
           </Stack>

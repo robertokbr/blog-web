@@ -4,12 +4,13 @@ import { containerUp } from "../../../styles/animations";
 import { ChakraDiv } from "../chakra-div";
 import { PostContainerProps } from "./post-container.type";
 
-export function PostContainer({ 
-  children, 
+export function PostContainer({
+  children,
+  stackProps,
   rightSide,
   leftSide,
-  size, 
-  ...props 
+  size,
+  ...props
 }: PostContainerProps) {
   const counterSize = useMemo(() => {
     const sizeValues = { md: { minH: 32 }, sm: { minH: 24 } };
@@ -30,7 +31,7 @@ export function PostContainer({
       {...containerUp}
     >
       {rightSide && rightSide}
-      <Stack width="100%" spacing="4" ml={["0", "4"]} overflow="hidden" px="4">
+      <Stack width="100%" spacing="4" ml={["0", "4"]} overflow="hidden" px="4" {...stackProps}>
         {children}
       </Stack>
       {leftSide && leftSide}

@@ -20,13 +20,13 @@ export function Bio({hideLinks ,...data}: BioProps) {
 
       {!hideLinks && (
         <HStack spacing="4" mt="4">
-          <Link href="https://github.com/robertokbr" target="_blank" aProps={linkStyle}>
-            Github
+          <Link href="https://www.tiktok.com/@rob_kbr" target="_blank" aProps={linkStyle}>
+            Tiktok
           </Link>
-          <Link href="https://www.linkedin.com/in/robertojrcdc/" target="_blank" aProps={linkStyle}>
-            Linkedin
+          <Link href="https://www.youtube.com/channel/UCggY0K1bKT24bWf3cfUBdqw" target="_blank" aProps={linkStyle}>
+            Youtube
           </Link>
-          <Link href="https://twitter.com/robertojrdev" target="_blank" aProps={linkStyle}>
+          <Link href="https://twitter.com/rob_kbr" target="_blank" aProps={linkStyle}>
             Twitter
           </Link>
         </HStack>
