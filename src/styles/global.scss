@@ -19,4 +19,10 @@ html {
 
 P, span, strong, H1, H2, H3 {
   white-space: pre-line;
-} 
+}
+
+p {
+  img {
+    width: 100%;
+  }
+}
