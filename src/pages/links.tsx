@@ -6,6 +6,7 @@ import { Social } from "../components/organisms/social";
 import { GiBirdTwitter } from 'react-icons/gi';
 import { FaLinkedin, FaTiktok, FaYoutube, FaGithubAlt } from 'react-icons/fa';
 import { BiBookContent } from 'react-icons/bi';
+import { BsDiscord } from "react-icons/bs";
 
 
 const socialContainerProps = { marginLeft: 'auto', marginRight: 'auto' }
@@ -19,7 +20,17 @@ export default function Feed() {
         <Bio pt="6" hideLinks/>
         <MainContainer>
           <Stack spacing="4" flex="1" minW="320px" alignItems="center" mb="6">
-          <Social
+            <Social
+              icon={BsDiscord}
+              containerProps={socialContainerProps}
+              data={{
+                content: 'Mansão Dev',
+                fallbackLink: 'https://discord.gg/hJnfCxVS',
+                link: 'https://discord.gg/hJnfCxVS',
+                title: "Discord"
+              }}
+            />
+            <Social
               icon={FaTiktok}
               containerProps={socialContainerProps}
               data={{
