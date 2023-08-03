@@ -7,6 +7,7 @@ import { createPostRateErrorToast, LoginErrorToast } from "../../../utils/toast"
 import { PostRateControlContainer } from "../../atoms/post-rate-control-container";
 import { RateValue } from "./post-rate-control.enum";
 import { PostRateControlProps } from "./post-rate-control.type";
+import { UserDto } from '../../../services/api/models/UserDto'
 
 export function PostRateControl({
   handleRate,
@@ -91,13 +92,15 @@ export function PostRateControl({
         onClick={() => handlePostRate(RateValue.UP)}
         {...dislikePosition}
       />
-      <Text
+     {data?.user?.role === UserDto.role.ADMIN && (
+       <Text
         fontSize={counterSize.textSize}
         fontWeight="medium"
         color="pink.400"
       >
         {rateSum}
       </Text>
+     )}
       <Icon
         transition="0.2s"
         as={AiOutlineCaretDown}
