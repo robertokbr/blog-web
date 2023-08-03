@@ -25,8 +25,8 @@ export default function Feed() {
               containerProps={socialContainerProps}
               data={{
                 content: 'Mansão Dev',
-                fallbackLink: 'https://discord.gg/hJnfCxVS',
-                link: 'https://discord.gg/hJnfCxVS',
+                fallbackLink: 'https://discord.gg/2e9RqKQuZV',
+                link: 'discord://discord.com/invite/2e9RqKQuZV',
                 title: "Discord"
               }}
             />
