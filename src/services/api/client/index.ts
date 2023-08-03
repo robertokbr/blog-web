@@ -92,7 +92,7 @@ export class AxiosAPI {
 
   @Authorized()
   public async deleteComment(id: string) {
-    const { data: comment } = await this.getClient().delete('/posts/comments/' + id);
+    const { data: comment } = await this.getClient().delete('/posts/' + id + '/comments');
     return comment;
   }
 
