@@ -7,6 +7,7 @@ import { GiBirdTwitter } from 'react-icons/gi';
 import { FaLinkedin, FaTiktok, FaYoutube, FaGithubAlt } from 'react-icons/fa';
 import { BiBookContent } from 'react-icons/bi';
 import { BsDiscord } from "react-icons/bs";
+import { Char } from "../components/atoms/char";
 
 
 const socialContainerProps = { marginLeft: 'auto', marginRight: 'auto' }
@@ -92,6 +93,7 @@ export default function Feed() {
             />
           </Stack>
         </MainContainer>
+        <Char/>
       </Flex>
     </>
   );

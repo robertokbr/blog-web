@@ -12,6 +12,7 @@ import { LoginErrorToast } from "../utils/toast";
 import { useAuth } from "../states/hooks/use-auth";
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import useSessionStorage from "../states/hooks/use-session-storage";
+import { Char } from "../components/atoms/char";
 
 type FeedProps = {
   posts: PostDto[];
@@ -43,6 +44,7 @@ export default function Feed({ posts, tags }: FeedProps) {
         </MainContainer>
         <Footer data={tags}/>
         <CreatePostButton/>
+       <Char/>
       </Flex>
     </>
   );
