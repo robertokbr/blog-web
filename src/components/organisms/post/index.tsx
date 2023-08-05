@@ -52,7 +52,7 @@ export function Post({
   return (
     <PostContainer size="md" {...containerProps} rightSide={Aside}>
       <Flex align="center">
-        {isPostPreview && <PostDate data={{ createdAt: post.createdAt }}/>}
+        {isPostPreview && <PostDate data={{ createdAt: post.createdAt, content: post.content }}/>}
         <PostOptions data={post}/>
       </Flex>
       <PostContentByContext data={post} />
