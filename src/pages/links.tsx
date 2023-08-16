@@ -32,6 +32,16 @@ export default function Feed() {
               }}
             />
             <Social
+              icon={FaYoutube}
+              containerProps={socialContainerProps}
+              data={{
+                content: '@meunomeebero',
+                fallbackLink: 'youtube.com/@meunomeebero',
+                link: 'youtube://www.youtube.com/user/meunomeebero',
+                title: "YouTube"
+              }}
+            />
+            <Social
               icon={FaTiktok}
               containerProps={socialContainerProps}
               data={{
@@ -39,16 +49,6 @@ export default function Feed() {
                 fallbackLink: 'https://www.tiktok.com/@rob_kbr',
                 link: 'tiktok://user/rob_kbr',
                 title: "TikTok"
-              }}
-            />
-            <Social
-              icon={FaYoutube}
-              containerProps={socialContainerProps}
-              data={{
-                content: '@robkbr',
-                fallbackLink: 'https://www.youtube.com/channel/UCggY0K1bKT24bWf3cfUBdqw',
-                link: 'youtube://www.youtube.com/user/robkbr',
-                title: "YouTube"
               }}
             />
             <Social
