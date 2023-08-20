@@ -9,7 +9,6 @@ import { BiBookContent } from 'react-icons/bi';
 import { BsDiscord } from "react-icons/bs";
 import { Char } from "../components/atoms/char";
 
-
 const socialContainerProps = { marginLeft: 'auto', marginRight: 'auto' }
 
 export default function Feed() {
@@ -42,26 +41,6 @@ export default function Feed() {
               }}
             />
             <Social
-              icon={FaTiktok}
-              containerProps={socialContainerProps}
-              data={{
-                content: '@rob_kbr',
-                fallbackLink: 'https://www.tiktok.com/@rob_kbr',
-                link: 'tiktok://user/rob_kbr',
-                title: "TikTok"
-              }}
-            />
-            <Social
-              icon={GiBirdTwitter}
-              containerProps={socialContainerProps}
-              data={{
-                content: '@rob_kbr',
-                link: 'twitter://user?screen_name=rob_kbr',
-                fallbackLink: 'https://twitter.com/rob_kbr',
-                title: "Twitter"
-              }}
-            />
-            <Social
               icon={FaGithubAlt}
               containerProps={socialContainerProps}
               data={{
@@ -69,16 +48,6 @@ export default function Feed() {
                 fallbackLink: "https://github.com/robertokbr",
                 link: 'https://github.com/robertokbr',
                 title: "Github"
-              }}
-            />
-            <Social
-              icon={FaLinkedin}
-              containerProps={socialContainerProps}
-              data={{
-                content: 'Roberto Junior',
-                fallbackLink: 'https://www.linkedin.com/in/robertojrcdc/',
-                link: 'linkedin://profile/robertojrcdc/',
-                title: "Linkedin"
               }}
             />
             <Social
