@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Users {
+  id Int @id @default(autoincrement())
+  name String
+  image String?
+  email String @unique
+  github  String? @unique
+  role Role @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  posts Posts[]
+  comments Comments[]
+  postRates PostRates[]
+  commentRates CommentRates[]
+  acess PostAccess[]
+}
+
+model Posts {
+  id Int @id @default(autoincrement())
+  slug String @unique
+  image String?
+  isArchived Boolean @default(false)
+  link String?
+  title String
+  content String @db.Text()
+  description String?
+  userId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  user Users? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments Comments[]
+  rates PostRates[]
+  tags PostTags[]
+  acess PostAccess[]
+
+  @@index([userId])
+}
+
+model PostTags {
+  id Int @id @default(autoincrement())
+  name String
+  postId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  post Posts @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+}
+
+model PostRates {
+  id Int @id @default(autoincrement())
+  value Int
+  postId Int
+  userId Int
+
+  user Users? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Posts? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([userId])
+}
+
+model Comments {
+  id Int @id @default(autoincrement())
+  userId Int
+  postId Int
+  content String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  user Users? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Posts? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  rates CommentRates[]
+
+  @@index([postId])
+  @@index([userId])
+}
+
+model CommentRates {
+  id Int @id @default(autoincrement())
+  value Int
+  commentId Int
+  userId Int
+
+  user Users? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comments? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@index([commentId])
+  @@index([userId])
+}
+
+model PostAccess {
+  id Int @id @default(autoincrement())
+  userId Int?
+  postSlug String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  user Users? @relation(fields: [userId], references: [id])
+  post Posts? @relation(fields: [postSlug], references: [slug])
+
+  @@index([userId])
+  @@index([postSlug])
+}

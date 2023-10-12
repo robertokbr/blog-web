@@ -8,6 +8,7 @@ import { Api } from "../services/api";
 import { Aside } from "../components/organisms/aside";
 import { Posts } from "../components/templates/posts";
 import { CreatePostButton } from "../components/molecules/create-post-button";
+import { getPosts } from "./api/v1/posts";
 
 type FilteredFeedProps = {
   posts: PostDto[];
@@ -37,6 +38,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const apiClient = new Api("FilteredFeed::getServerSideProps");
   const { tag } = params as Record<string, string>;
-  const { posts, tags } = await apiClient.getPostsAndTags({ tag });
-  return { revalidate: 30 * 60, props: { posts, tags } };
+  const tags = await apiClient.getTags();
+  const posts = await getPosts({ tag });
+  return { revalidate: 30 * 60, props: { posts: JSON.parse(JSON.stringify(posts)), tags } };
 };

@@ -13,6 +13,7 @@ import { useAuth } from "../states/hooks/use-auth";
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import useSessionStorage from "../states/hooks/use-session-storage";
 import { Login } from "../components/molecules/login";
+import { getPosts } from "./api/v1/posts";
 
 type FeedProps = {
   posts: PostDto[];
@@ -22,10 +23,9 @@ type FeedProps = {
 export default function Feed({ posts, tags }: FeedProps) {
   const toast = useToast();
   const { validateToken, data } = useAuth();
-  const token = useSessionStorage('token', data);
 
   useGoogleOneTapLogin({
-    disabled: !!token,
+    disabled: !!data,
     cancel_on_tap_outside: false,
     onError: () => toast(LoginErrorToast),
     onSuccess: async credentialResponse => {
@@ -52,6 +52,7 @@ export default function Feed({ posts, tags }: FeedProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const api = new Api("Feed::getServerSideProps");
-  const { posts, tags } = await api.getPostsAndTags({});
-  return { revalidate: 30 * 60, props: { posts, tags } };
+  const tags = await api.getTags();
+  const posts = await getPosts({});
+  return { revalidate: 30 * 60, props: { posts: JSON.parse(JSON.stringify(posts)), tags } };
 };
