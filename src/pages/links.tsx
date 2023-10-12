@@ -35,7 +35,7 @@ export default function Feed() {
               containerProps={socialContainerProps}
               data={{
                 content: '@meunomeebero',
-                fallbackLink: 'youtube.com/@meunomeebero',
+                fallbackLink: 'https://www.youtube.com/channel/UCa7B9LVy_nA2OBy_B6zXO9w',
                 link: 'youtube://www.youtube.com/user/meunomeebero',
                 title: "YouTube"
               }}
@@ -62,7 +62,6 @@ export default function Feed() {
             />
           </Stack>
         </MainContainer>
-        <Char/>
       </Flex>
     </>
   );
