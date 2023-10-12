@@ -32,8 +32,6 @@ export function PostRateControl({
     } : {});
   }, [isDislikeEnabled]);
 
-  const { login } = useAuth();
-
   useEffect(() => {
     const sum = [...rateData].reduce((a, b) => a + b.value, 0);
     const rateI = [...rateData].findIndex(rate => rate.userId === data?.user?.id);
@@ -42,7 +40,10 @@ export function PostRateControl({
   }, [data?.user?.id, rateData]);
 
   const handlePostRate = useCallback(async (value: number) => {
-    if (!data) return login();
+    if (!data) {
+      toast({ title: 'You must be logged in to rate', ...LoginErrorToast });
+    }
+
     if (userVote && userVote === value) return;
     const newRate = [...rateData];
 
@@ -55,7 +56,7 @@ export function PostRateControl({
 
     setRateData(newRate as any);
     await handleRate(value).catch(() => toast(createPostRateErrorToast));
-  }, [data, userVote, rateData, handleRate, toast, login]);
+  }, [data, userVote, rateData, handleRate, toast]);
 
   const counterSize = useMemo(() => {
     const sizeValues = {

@@ -11,11 +11,13 @@ import {
   useDisclosure,
   Textarea,
   Avatar,
+  useToast,
 } from "@chakra-ui/react"
 import { useRef, cloneElement, useCallback, useEffect, useState } from "react"
 import ResizeTextarea from "react-textarea-autosize";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { useDraft } from "../../../states/hooks/use-draft";
+import { LoginErrorToast } from "../../../utils/toast";
 
 export function SingleInputModal({
   children,
@@ -29,7 +31,8 @@ export function SingleInputModal({
 
   const initialRef = useRef();
   const textAreaRef = useRef<HTMLTextAreaElement>();
-  const { data, login } = useAuth();
+  const { data } = useAuth();
+  const toast = useToast();
 
   useEffect(() => {
     const content = handleGetDraft(modalName);
@@ -37,9 +40,12 @@ export function SingleInputModal({
   }, [isOpen, handleGetDraft, modalName]);
 
   const handleOpenModal = useCallback(async () => {
-    if (!data) return login();
+    if (!data) {
+      toast({ title: 'You must be logged in to post', ...LoginErrorToast });
+      return;
+    }
     onOpen()
-  }, [data, onOpen, login]);
+  }, [data, onOpen, toast]);
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
