@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 export interface CustomSessionContextProps {
   data: { user: UserDto };
   validateToken(token: string): Promise<boolean>;
-  login(): void;
+  logout(): void;
 }
 
 export const CustomSessionContext = createContext({} as CustomSessionContextProps);
@@ -30,7 +30,9 @@ export function CustomSessionProvider({ children }) {
       return false;
   }, []);
 
-  const login = () => {};
+  const logout = () => {
+    sessionStorage.removeItem('token');
+  };
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -39,7 +41,7 @@ export function CustomSessionProvider({ children }) {
 
 
   return (
-    <CustomSessionContext.Provider value={{ data, validateToken, login }}>
+    <CustomSessionContext.Provider value={{ data, validateToken, logout }}>
       {children}
     </CustomSessionContext.Provider>
   );

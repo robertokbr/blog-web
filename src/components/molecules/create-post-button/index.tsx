@@ -1,5 +1,5 @@
 import { Button, Flex, Icon } from "@chakra-ui/react";
-import { GoPlus } from "react-icons/go";
+import { LuFilePlus } from "react-icons/lu";
 import { UserDto } from "../../../services/api/models";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { CreatePostModal } from "../../organisms/create-post-modal";
@@ -16,17 +16,17 @@ export function CreatePostButton() {
     >
       <CreatePostModal>
         <Button
-          w="10"
-          h="10"
+          w="4rem"
+          h="4rem"
           color="purple.400"
           background="gray.800"
           borderRadius="50%"
           _hover={{ background: "gray.800" }}
         >
           <Icon
-            as={GoPlus}
-            w="4"
-            h="4"
+            as={LuFilePlus}
+            w="5"
+            h="5"
           />
         </Button>
       </CreatePostModal>

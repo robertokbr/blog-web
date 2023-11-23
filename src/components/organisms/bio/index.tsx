@@ -20,7 +20,7 @@ export function Bio({hideLinks ,...data}: BioProps) {
           <Link href="https://github.com/robertokbr" target="_blank" aProps={linkStyle}>
             Github
           </Link>
-          <Link href="youtube.com/@meunomeebero" target="_blank" aProps={linkStyle}>
+          <Link href="https://www.youtube.com/channel/UCa7B9LVy_nA2OBy_B6zXO9w" target="_blank" aProps={linkStyle}>
             YouTube
           </Link>
           <Link href="https://www.linkedin.com/in/robertojrcdc/" target="_blank" aProps={linkStyle}>

@@ -1,7 +1,7 @@
 import { Flex, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
-import { FaHome, FaPen, FaTrashAlt } from "react-icons/fa";
+import { FaHome, FaPen, FaArchive, FaTrashAlt } from "react-icons/fa";
 import { PostDto, UserDto } from "../../../services/api/models";
 import { logger } from "../../../services/logger";
 import { deletePostErrorToast } from "../../../utils/toast";
@@ -11,6 +11,8 @@ import { Alert } from "../../atoms/alert";
 import { CreatePostModal } from "../../organisms/create-post-modal";
 import { useAuth } from "../../../states/hooks/use-auth";
 import { Api } from "../../../services/api";
+import useSessionStorage from "../../../states/hooks/use-session-storage";
+import axios from "axios";
 
 type PostOptionsProps = {
   data: PostDto;
@@ -25,6 +27,7 @@ export function PostOptions ({
   const toast = useToast();
   const { pathname } = useRouter();
   const session = useAuth();
+  const token = useSessionStorage('token', session);
   const userRole = useMemo(() => session?.data?.user?.role, [session]);
 
   const handleDeletePost = useCallback(async () => {
@@ -37,8 +40,20 @@ export function PostOptions ({
     }
   }, [data.id, history, toast]);
 
+  const handleArchive = useCallback(async () => {
+    try {
+      await axios.patch('/api/v1/posts/visibility', {
+        token,
+        postId: data.id,
+      });
+    } catch (error) {
+      logger.error({ error, context: 'PostHeader::handleArchive' })
+      toast(deletePostErrorToast);
+    }
+  }, [token, data.id, toast]);
+
   return (
-    <Flex ml="auto">
+    <Flex ml="auto" pl="4">
       {userRole === UserDto.role.ADMIN && (
         <>
           <Alert
@@ -51,6 +66,11 @@ export function PostOptions ({
               text={"Deletar"}
             />
           </Alert>
+          <PostIcon
+            onClick={handleArchive}
+              icon={FaArchive}
+              text={"Arquivar"}
+            />
           <CreatePostModal post={data}>
             <PostIcon
               icon={FaPen}

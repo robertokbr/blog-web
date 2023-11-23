@@ -12,7 +12,8 @@ import { LoginErrorToast } from "../utils/toast";
 import { useAuth } from "../states/hooks/use-auth";
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import useSessionStorage from "../states/hooks/use-session-storage";
-import { Char } from "../components/atoms/char";
+import { Login } from "../components/molecules/login";
+import { getPosts } from "./api/v1/posts";
 
 type FeedProps = {
   posts: PostDto[];
@@ -21,11 +22,10 @@ type FeedProps = {
 
 export default function Feed({ posts, tags }: FeedProps) {
   const toast = useToast();
-  const { validateToken } = useAuth();
-  const token = useSessionStorage('token');
+  const { validateToken, data } = useAuth();
 
   useGoogleOneTapLogin({
-    disabled: token !== null,
+    disabled: !!data,
     cancel_on_tap_outside: false,
     onError: () => toast(LoginErrorToast),
     onSuccess: async credentialResponse => {
@@ -37,6 +37,7 @@ export default function Feed({ posts, tags }: FeedProps) {
   return (
     <>
       <Head />
+      <Login/>
       <Flex direction="column"  w="100vw">
         <Bio pt="6"/>
         <MainContainer>
@@ -44,7 +45,6 @@ export default function Feed({ posts, tags }: FeedProps) {
         </MainContainer>
         <Footer data={tags}/>
         <CreatePostButton/>
-       <Char/>
       </Flex>
     </>
   );
@@ -52,6 +52,7 @@ export default function Feed({ posts, tags }: FeedProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const api = new Api("Feed::getServerSideProps");
-  const { posts, tags } = await api.getPostsAndTags({});
-  return { revalidate: 30 * 60, props: { posts, tags } };
+  const tags = await api.getTags();
+  const posts = await getPosts({});
+  return { revalidate: 30 * 60, props: { posts: JSON.parse(JSON.stringify(posts)), tags } };
 };
