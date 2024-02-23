@@ -11,22 +11,22 @@ export function Bio({hideLinks ,...data}: BioProps) {
       <Link href="/links">
         <Avatar
           size="xl"
-          name="Roberto Junior"
-          src="https://avatars.githubusercontent.com/u/60328400?v=4"
+          name="Bero"
+          src="https://avatars.githubusercontent.com/u/157736909?v=4"
           border="2px solid #6272a4"
           mb="2"
         />
       </Link>
       {!hideLinks && (
         <HStack spacing="4" mt="4">
-          <Link href="https://github.com/robertokbr" target="_blank" aProps={linkStyle}>
+          <Link href="https://github.com/meunomeebero" target="_blank" aProps={linkStyle}>
             Github
           </Link>
           <Link href="https://www.youtube.com/channel/UCa7B9LVy_nA2OBy_B6zXO9w" target="_blank" aProps={linkStyle}>
             YouTube
           </Link>
-          <Link href="https://www.linkedin.com/in/robertojrcdc/" target="_blank" aProps={linkStyle}>
-            Linkedin
+          <Link href="https://bero.land" target="_blank" aProps={linkStyle}>
+            Beroland
           </Link>
         </HStack>
       )}
