@@ -1,7 +1,6 @@
 import { Badge, Box, BoxProps } from "@chakra-ui/react"
-import { useCallback, useMemo } from "react"
+import { useMemo } from "react"
 import { PostTagDto } from "../../../services/api/models";
-import { useContent } from "../../../states/hooks/use-content"
 import { containerUp } from "../../../styles/animations";
 import { randomDraculaBackground } from "../../../styles/theme"
 import { ChakraDiv } from "../../atoms/chakra-div";

@@ -5,7 +5,7 @@ import { metaConfig } from "../../../configs/meta-config";
 export function PostHead({ data }) {
   return (
     <Head>
-      <title>{data?.title} | robkbr blog</title>
+      <title>{data?.title} | Bero blog</title>
       <meta name="title" content={data?.title}/>
       <meta name="description" content={data?.description} />
 

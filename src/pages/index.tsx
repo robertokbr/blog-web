@@ -4,14 +4,12 @@ import { GetStaticProps } from "next";
 import { Footer } from "../components/organisms/footer";
 import { FeedHead as Head } from "../components/atoms/feed-head";
 import { PostDto, PostTagDto } from "../services/api/models";
-import { Api } from "../services/api";
 import { Posts } from "../components/templates/posts";
 import { CreatePostButton } from "../components/molecules/create-post-button";
 import { Bio } from "../components/organisms/bio";
 import { LoginErrorToast } from "../utils/toast";
 import { useAuth } from "../states/hooks/use-auth";
 import { useGoogleOneTapLogin } from '@react-oauth/google';
-import useSessionStorage from "../states/hooks/use-session-storage";
 import { Login } from "../components/molecules/login";
 import { getPosts } from "./api/v1/posts";
 

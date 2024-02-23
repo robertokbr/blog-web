@@ -17,7 +17,7 @@ const baseToastConfig = {
 }
 
 export const LoginErrorToast = {
-  title: "Falha no login",
+  title: "Faça login primeiro",
   status: ToastStatusEnum.ERROR,
   ...baseToastConfig,
 };
