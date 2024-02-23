@@ -51,8 +51,10 @@ export default function Feed({ posts, tags }: FeedProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const api = new Api("Feed::getServerSideProps");
-  const tags = await api.getTags();
   const posts = await getPosts({});
+  const tags: PostTagDto[] = [];
+  posts.forEach(p => {
+    tags.push(...p.tags.map(t => ({ id: t.id, name: t.name, postId: t.postId } as PostTagDto)))
+  })
   return { revalidate: 30 * 60, props: { posts: JSON.parse(JSON.stringify(posts)), tags } };
 };

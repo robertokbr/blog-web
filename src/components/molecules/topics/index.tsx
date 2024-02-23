@@ -1,5 +1,5 @@
 import { Badge, Box, BoxProps } from "@chakra-ui/react"
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 import { PostTagDto } from "../../../services/api/models";
 import { useContent } from "../../../states/hooks/use-content"
 import { containerUp } from "../../../styles/animations";
@@ -12,20 +12,31 @@ interface TopicsProps extends BoxProps {
 }
 
 export function Topics({ data: tags, ...props }: TopicsProps) {
+  const uniqueTags = useMemo(() => {
+    const tagSet = new Set<string>();
+
+
+    tags.forEach(t => {
+      tagSet.add(t.name.toLowerCase())
+    });
+
+    return [...tagSet.values()];
+  }, [tags]);
+
   return (
     <Box display="block" float="none" textAlign="center" {...props}
       as={ChakraDiv}
       {...containerUp}
     >
-      {tags.map(tag =>
-        <Link href={"/" + tag.name} key={tag.name}>
+      {uniqueTags.map(name =>
+        <Link href={"/" + name} key={name}>
           <Badge
             margin="0.5"
             fontSize="md"
             cursor="pointer"
             background={randomDraculaBackground()}
           >
-            {tag.name}
+            {name}
           </Badge>
         </Link>
       )}

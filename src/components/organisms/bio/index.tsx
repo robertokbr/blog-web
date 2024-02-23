@@ -15,6 +15,7 @@ export function Bio({hideLinks ,...data}: BioProps) {
           src="https://avatars.githubusercontent.com/u/157736909?v=4"
           border="2px solid #6272a4"
           mb="2"
+          bg="black.800"
         />
       </Link>
       {!hideLinks && (

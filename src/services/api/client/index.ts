@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiConfig } from "../../../configs/api-config";
 import { logger } from "../../logger";
-import { CommentDto, CommentRateDto, PostAdDto, PostDto, PostRateDto } from "../models";
+import { CommentDto, CommentRateDto, PostAdDto, PostDto, PostRateDto, PostTagDto } from "../models";
 import { Authorized } from '../../../utils/api-decorators';
 
 export class AxiosAPI {
@@ -29,10 +29,15 @@ export class AxiosAPI {
   }
 
   public async getPostsAndTagsBySlug(slug: string) {
-    const [{ data: post }, { data: tags }] = await Promise.all([
+    const [{ data: post }] = await Promise.all([
       this.getClient().get('/posts/' + slug).catch(this.failReturningNull),
-      this.getClient().get('posts/tags').catch(this.failReturningArray),
     ]);
+
+    const tags: PostTagDto[] = [];
+
+    (post as PostDto)?.tags.forEach(t => {
+      tags.push(t);
+    });
 
     return { post, tags };
   }

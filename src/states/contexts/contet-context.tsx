@@ -25,8 +25,12 @@ export function ContentContextProvider({ children }) {
   const [postComments, setPostComments] = useState<CommentDto[]>([]);
 
   useEffect(() => {
-    api.getTags().then(tags => setTags(tags));
-  }, []);
+    const tagsToPush: PostTagDto[] = [];
+    postsToList.forEach(p => {
+      tagsToPush.push(...p.tags.map(t => ({ id: t.id, name: t.name, postId: t.postId } as PostTagDto)))
+    })
+    setTags(tagsToPush);
+  }, [postsToList]);
 
   const handleSearchPosts = useCallback(
     async (params: Record<string, string | string[]>) => {

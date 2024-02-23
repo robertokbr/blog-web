@@ -38,7 +38,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const apiClient = new Api("FilteredFeed::getServerSideProps");
   const { tag } = params as Record<string, string>;
-  const tags = await apiClient.getTags();
   const posts = await getPosts({ tag });
+  const tags: PostTagDto[] = [];
+  posts.forEach(p => {
+    tags.push(...p.tags.map(t => ({ id: t.id, name: t.name, postId: t.postId } as PostTagDto)))
+  })
   return { revalidate: 30 * 60, props: { posts: JSON.parse(JSON.stringify(posts)), tags } };
 };
